@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:gravity="center_vertical|center_horizontal">
+		<Button
+				android:id="@+id/releaseBtn"
+	        	android:layout_width="wrap_content"
+	        	android:layout_height="wrap_content"
+	        	android:background="@drawable/release"
+	        	android:layout_marginBottom="10px"/>
+		<TextView 
+				android:layout_width="fill_parent" 
+				android:layout_height="wrap_content" 
+				android:text="Bienvenue!"
+				android:gravity="center_horizontal"
+				android:layout_marginTop="20px"
+				android:layout_marginBottom="20px"/>
+	
+	
+		<TextView
+				android:text="Entrez la recherche à effectuer dans le champ ci-dessous puis cliquez sur le bouton"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10px" />
+				
+		<TextView 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" 
+				android:text="Destination:"
+				android:textSize="20px"/>
+	
+	
+		<EditText
+				android:id="@+id/DestEditTxt"
+				android:layout_marginBottom="5px"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+				
+ 	
+	<Button
+				android:id="@+id/goCourseBtn"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:background="@drawable/taxi_button"/>
+					
+	<LinearLayout 	xmlns:android="http://schemas.android.com/apk/res/android"
+					android:orientation="horizontal"
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom">
+					
+		<TextView 
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content" 
+					android:text="Information sur le client:"
+					android:padding="20px"
+					android:layout_gravity="bottom"/>
+		<Button
+	        		android:id="@+id/infoBtn"
+	        		android:layout_width="wrap_content"
+	        		android:layout_height="wrap_content"
+	        		android:background="@drawable/info_button" 
+	        		android:layout_gravity="bottom"/>
+        		
+    </LinearLayout>    		
+ 	
+</LinearLayout>
+

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout 
+				xmlns:android="http://schemas.android.com/apk/res/android"
+				android:orientation="vertical" 
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content">
+	
+	 <TableLayout
+       			 android:layout_width="wrap_content"
+       			 android:id="@+id/informationsTable"
+       			 android:layout_height="wrap_content"
+       			 android:stretchColumns="2">
+    <TableRow>
+		<TextView 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:text="Nom:"
+				android:layout_column="0"
+				android:textSize="20px" />
+
+		<EditText 
+				android:id="@+id/nomEditTxt"
+				android:layout_marginBottom="15px"
+				android:layout_column="1" 
+				android:layout_width="200sp"
+				android:lines="1"
+				android:maxLength="20"
+				android:layout_height="wrap_content"/>
+	</TableRow>
+				
+    <TableRow>
+
+		<TextView 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:text="Prénom:"
+				android:layout_column="0"
+				android:textSize="20px"/>
+
+		<EditText 
+				android:id="@+id/prenomEditTxt"
+				android:layout_marginBottom="15px"
+				android:layout_column="1" 
+				android:lines="1"
+				android:maxLength="20"
+				android:layout_width="200sp"
+				android:layout_height="wrap_content" />
+
+	</TableRow>
+
+    <TableRow>
+
+		<TextView 
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" 
+				android:text="Téléphone:"
+				android:layout_column="0"
+				android:textSize="20px"/>
+
+
+		<EditText 
+				android:id="@+id/telEditTxt"
+				android:layout_marginBottom="15px"
+				android:layout_column="1" 
+				android:phoneNumber="true"
+				android:lines="1"
+				android:maxLength="10"
+				android:layout_width="200sp"
+				android:layout_height="wrap_content"/>
+	</TableRow>
+	
+	</TableLayout>
+	<LinearLayout 
+					xmlns:android="http://schemas.android.com/apk/res/android"
+					android:orientation="horizontal"
+					android:gravity="right" 
+					android:layout_width="fill_parent"
+					android:layout_height="wrap_content">
+
+		<Button
+	        		android:id="@+id/dialogInfoBtnAnnuler"
+	        		android:layout_width="wrap_content"
+	        		android:layout_height="wrap_content"
+ 	        		android:text="Annuler"
+	        		android:textSize="20px"
+	        		android:layout_gravity="bottom"/>
+
+		<Button
+	        		android:id="@+id/dialogInfoBtnValider"
+	        		android:layout_width="wrap_content"
+	        		android:layout_height="wrap_content"
+	        		android:text="Valider" 
+	        		android:textSize="20px"
+	        		android:layout_gravity="bottom"/>
+	        		</LinearLayout>>
+	
+</LinearLayout>
