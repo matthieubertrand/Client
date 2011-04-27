@@ -74,22 +74,16 @@ public class Estimation extends Activity {
 			map.put("img", String.valueOf(R.drawable.euro));
 			listItem.add(map);
 		} catch(DirectionNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch(DirectionInvalidRequestException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch(DirectionException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch(DirectionZeroResultsException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch(ParamsException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch(HttpUrlException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -108,22 +102,16 @@ public class Estimation extends Activity {
 					map.put("description", GmapsDirection.getTrajetInfo(
 							posTaxi, data.position).temps);
 				} catch(ParamsException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch(HttpUrlException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch(DirectionNotFoundException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch(DirectionInvalidRequestException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch(DirectionException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch(DirectionZeroResultsException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

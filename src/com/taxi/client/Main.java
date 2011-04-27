@@ -85,11 +85,9 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 								Toast.LENGTH_SHORT).show();
 					}
 				} catch(CourseExistException e) {
-					// TODO Auto-generated catch block
 					Log.i("taxi", "course exist exception");
 					e.printStackTrace();
 				} catch(ParamsException e) {
-					// TODO Auto-generated catch block
 					Log.i("taxi", "params exception");
 					e.printStackTrace();
 				} catch(HttpUrlException e) {
@@ -173,19 +171,16 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 
 	@Override
 	public void onProviderDisabled(String provider) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
 
 	}
 
