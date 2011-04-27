@@ -1,5 +1,6 @@
 package com.taxi.client;
 
+import core.localisation.GeoPoint;
 import android.app.Application;
 
 /**
@@ -11,4 +12,6 @@ public class SharedData extends Application {
 	public String nom;
 	public String prenom;
 	public String telephone;
+	public GeoPoint position;
+	public String usrdestination;
 }

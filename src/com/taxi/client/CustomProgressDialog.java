@@ -23,7 +23,6 @@ public class CustomProgressDialog extends Dialog implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		dismiss();
-		
 	}
 
 }

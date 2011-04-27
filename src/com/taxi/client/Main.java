@@ -14,8 +14,13 @@ import core.localisation.GeoPoint;
 import client_request.ClientRequest;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,57 +28,67 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 /**
- *  Gere les lancements d'activitées selon les boutons
- *  Envoi requete sur serveur web
- *  Reccupere destination du client
+ * Gere les lancements d'activitées selon les boutons Envoi requete sur serveur
+ * web Reccupere destination du client
+ * 
  * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand
  * 
  */
-public class Main extends Activity implements OnClickListener {
+public class Main extends Activity implements OnClickListener, LocationListener {
+	private final static String server_addr = "http://88.184.190.42:8080";
 	private Button goCourseBtn;
 	private Button infoBtn;
 	private Button releaseBtn;
 	private CustomDialog infosDialog;
 	private ReleaseDialog releaseDialog;
-	private CustomProgressDialog progressdialog;
-	private String usrdestination;
 	private SharedPreferences sharePref;
 	private SharedData data;
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        data = (SharedData) getApplication();
-        goCourseBtn = (Button)findViewById(R.id.goCourseBtn);
-        goCourseBtn.setOnClickListener(this);
-        infoBtn = (Button)findViewById (R.id.infoBtn);
-        infoBtn.setOnClickListener(this);
-        releaseBtn = (Button)findViewById((R.id.releaseBtn));
-        releaseBtn.setOnClickListener(this);
-        sharePref = getSharedPreferences("Info_Client", 0);
-        data.nom = sharePref.getString("usrname", "");
-        data.prenom = sharePref.getString("usrsurname", "");
-        data.telephone = sharePref.getString("phone", "");
-        
-    }
+	private LocationManager locManager;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		data = (SharedData) getApplication();
+		goCourseBtn = (Button) findViewById(R.id.goCourseBtn);
+		goCourseBtn.setOnClickListener(this);
+		infoBtn = (Button) findViewById(R.id.infoBtn);
+		infoBtn.setOnClickListener(this);
+		releaseBtn = (Button) findViewById((R.id.releaseBtn));
+		releaseBtn.setOnClickListener(this);
+		sharePref = getSharedPreferences("Info_Client", 0);
+		data.nom = sharePref.getString("usrname", "");
+		data.prenom = sharePref.getString("usrsurname", "");
+		data.telephone = sharePref.getString("phone", "");
+		locManager = (LocationManager) this
+				.getSystemService(Context.LOCATION_SERVICE);
+		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+				this);
+	}
+
 	@Override
 	public void onClick(View v) {
-		Log.i("taxi","id : "+v.getId());
-		switch(v.getId()) {
+		switch (v.getId()) {
 		case R.id.goCourseBtn:
 			TextView textdestination = (TextView) findViewById(R.id.DestEditTxt);
-            usrdestination = textdestination.getText().toString();
-            Pattern p = Pattern.compile(".{4,}");
-            Matcher m = p.matcher(usrdestination);
-            if(m.matches())
-            {
-            	/*
-            	Log.i("taxi", "execute request");
-            	ClientRequest req = new ClientRequest("http://88.184.190.42:8080");
-            	try {
-					req.addCourse(new Course(0,usrdestination,new Client(data.nom, data.prenom, new GeoPoint(01.236547, 25.369874), data.telephone)));
+			data.usrdestination = textdestination.getText().toString();
+			Pattern p = Pattern.compile(".{4,}");
+			Matcher m = p.matcher(data.usrdestination);
+			if (m.matches()) {
+				ClientRequest req = new ClientRequest(server_addr);
+				try {
+					if (data.position != null) {
+						req.addCourse(new Course(0, data.usrdestination, new Client(
+								data.nom, data.prenom, data.position,
+								data.telephone)));
+						new ProgressTask(this).execute(data.telephone);
+					} else {
+						Toast.makeText(this,
+								"Votre position n'a pas encore été determinée",
+								Toast.LENGTH_SHORT).show();
+					}
 				} catch (CourseExistException e) {
 					// TODO Auto-generated catch block
 					Log.i("taxi", "course exist exception");
@@ -86,19 +101,12 @@ public class Main extends Activity implements OnClickListener {
 					Log.i("taxi", "httpurl exception");
 					e.printStackTrace();
 				} catch (Exception e) {
-					Log.i("taxi", "exception");
+					Log.i("taxi", "exception : " + e.getMessage());
 				}
-				Log.i("taxi", "request ok");
-				*/
-            	//progressdialog=new CustomProgressDialog( this);
-    			//progressdialog.show();
-    			Intent intent = new Intent(Main.this, Estimation.class);
-    			startActivity(intent);
-				
-            }
-		else 
-			{
-			Toast.makeText(this, "Erreur de destination, veuillez vérifier le contenu.",Toast.LENGTH_SHORT  ).show();
+			} else {
+				Toast.makeText(this,
+						"Erreur de destination, veuillez vérifier le contenu.",
+						Toast.LENGTH_SHORT).show();
 			}
 			break;
 		case R.id.infoBtn:
@@ -109,7 +117,81 @@ public class Main extends Activity implements OnClickListener {
 			releaseDialog = new ReleaseDialog(this);
 			releaseDialog.show();
 			break;
-	
+
 		}
 	}
+
+	public class ProgressTask extends AsyncTask<String, Void, Integer> {
+
+		private CustomProgressDialog dialog;
+
+		public ProgressTask(Context parent) {
+			dialog = new CustomProgressDialog(parent);
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			dialog.dismiss();
+			Intent estim = new Intent(Main.this, Estimation.class);
+			estim.putExtra("idTaxi", result);
+			Main.this.startActivity(estim);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			dialog.show();
+		}
+
+		@Override
+		protected Integer doInBackground(String... params) {
+			ClientRequest req = new ClientRequest(server_addr);
+			for (;;) {
+				try {
+					int idTaxi = req.getCourse(params[0]);
+					if (idTaxi > 0) {
+						return idTaxi;
+					} else {
+						try {
+							Thread.sleep(10000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				} catch (ParamsException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		if (data.position == null) {
+			data.position = new GeoPoint(location.getLatitude(),
+					location.getLongitude());
+		} else {
+			data.position.lat = location.getLatitude();
+			data.position.lon = location.getLongitude();
+		}
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
