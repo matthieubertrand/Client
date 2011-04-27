@@ -1,12 +1,13 @@
 package com.taxi.client;
 
-import core.localisation.GeoPoint;
 import android.app.Application;
+import core.localisation.GeoPoint;
 
 /**
  * Regroupe les data disponible dans toute l application
+ * 
  * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand
- *
+ * 
  */
 public class SharedData extends Application {
 	public String nom;

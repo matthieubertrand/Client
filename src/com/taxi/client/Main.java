@@ -2,17 +2,9 @@ package com.taxi.client;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import rest_client.CourseExistException;
 import rest_client.HttpUrlException;
 import rest_client.ParamsException;
-
-import core.course.Client;
-import core.course.Course;
-import core.localisation.GeoPoint;
-
-import client_request.ClientRequest;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +20,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import client_request.ClientRequest;
+import core.course.Client;
+import core.course.Course;
+import core.localisation.GeoPoint;
 
 /**
  * Gere les lancements d'activitées selon les boutons Envoi requete sur serveur
@@ -56,51 +52,50 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 		goCourseBtn.setOnClickListener(this);
 		infoBtn = (Button) findViewById(R.id.infoBtn);
 		infoBtn.setOnClickListener(this);
-		releaseBtn = (Button) findViewById((R.id.releaseBtn));
+		releaseBtn = (Button) findViewById(R.id.releaseBtn);
 		releaseBtn.setOnClickListener(this);
 		sharePref = getSharedPreferences("Info_Client", 0);
 		data.nom = sharePref.getString("usrname", "");
 		data.prenom = sharePref.getString("usrsurname", "");
 		data.telephone = sharePref.getString("phone", "");
-		locManager = (LocationManager) this
-				.getSystemService(Context.LOCATION_SERVICE);
+		locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
 				this);
 	}
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
+		switch(v.getId()) {
 		case R.id.goCourseBtn:
 			TextView textdestination = (TextView) findViewById(R.id.DestEditTxt);
 			data.usrdestination = textdestination.getText().toString();
 			Pattern p = Pattern.compile(".{4,}");
 			Matcher m = p.matcher(data.usrdestination);
-			if (m.matches()) {
+			if(m.matches()) {
 				ClientRequest req = new ClientRequest(server_addr);
 				try {
-					if (data.position != null) {
-						req.addCourse(new Course(0, data.usrdestination, new Client(
-								data.nom, data.prenom, data.position,
-								data.telephone)));
+					if(data.position != null) {
+						req.addCourse(new Course(0, data.usrdestination,
+								new Client(data.nom, data.prenom,
+										data.position, data.telephone)));
 						new ProgressTask(this).execute(data.telephone);
 					} else {
 						Toast.makeText(this,
 								"Votre position n'a pas encore été determinée",
 								Toast.LENGTH_SHORT).show();
 					}
-				} catch (CourseExistException e) {
+				} catch(CourseExistException e) {
 					// TODO Auto-generated catch block
 					Log.i("taxi", "course exist exception");
 					e.printStackTrace();
-				} catch (ParamsException e) {
+				} catch(ParamsException e) {
 					// TODO Auto-generated catch block
 					Log.i("taxi", "params exception");
 					e.printStackTrace();
-				} catch (HttpUrlException e) {
+				} catch(HttpUrlException e) {
 					Log.i("taxi", "httpurl exception");
 					e.printStackTrace();
-				} catch (Exception e) {
+				} catch(Exception e) {
 					Log.i("taxi", "exception : " + e.getMessage());
 				}
 			} else {
@@ -134,7 +129,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 			dialog.dismiss();
 			Intent estim = new Intent(Main.this, Estimation.class);
 			estim.putExtra("idTaxi", result);
-			Main.this.startActivity(estim);
+			startActivity(estim);
 		}
 
 		@Override
@@ -145,19 +140,19 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 		@Override
 		protected Integer doInBackground(String... params) {
 			ClientRequest req = new ClientRequest(server_addr);
-			for (;;) {
+			for(;;) {
 				try {
 					int idTaxi = req.getCourse(params[0]);
-					if (idTaxi > 0) {
+					if(idTaxi > 0)
 						return idTaxi;
-					} else {
+					else {
 						try {
 							Thread.sleep(10000);
-						} catch (InterruptedException e) {
+						} catch(InterruptedException e) {
 							e.printStackTrace();
 						}
 					}
-				} catch (ParamsException e) {
+				} catch(ParamsException e) {
 					e.printStackTrace();
 				}
 			}
@@ -167,7 +162,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if (data.position == null) {
+		if(data.position == null) {
 			data.position = new GeoPoint(location.getLatitude(),
 					location.getLongitude());
 		} else {
