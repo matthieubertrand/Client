@@ -6,9 +6,11 @@ import gmaps.DirectionNotFoundException;
 import gmaps.DirectionZeroResultsException;
 import gmaps.GmapsDirection;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
+import rest_client.ConnectionException;
 import rest_client.HttpUrlException;
 import rest_client.ParamsException;
 import android.app.Activity;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 import client_request.ClientRequest;
 import core.TrajetInfo;
 import core.localisation.GeoPoint;
@@ -50,7 +53,8 @@ public class Estimation extends Activity {
 		map.put("titre", "Temps d'arrivée du taxi estimé");
 		req = new ClientRequest(server_addr);
 		try {
-			GeoPoint posTaxi = req.getPosTaxi(idTaxi);
+			GeoPoint posTaxi;
+			posTaxi = req.getPosTaxi(idTaxi);
 			map.put("description",
 					GmapsDirection.getTrajetInfo(posTaxi, data.position).temps);
 			map.put("img", String.valueOf(R.drawable.taxi));
@@ -73,6 +77,10 @@ public class Estimation extends Activity {
 					EstimationPrix.EstimPrix(infos.distanceValue));
 			map.put("img", String.valueOf(R.drawable.euro));
 			listItem.add(map);
+		} catch (ConnectionException e) {
+			Toast.makeText(this,
+					"Connexion perdue",
+					Toast.LENGTH_SHORT).show();
 		} catch(DirectionNotFoundException e1) {
 			e1.printStackTrace();
 		} catch(DirectionInvalidRequestException e1) {
@@ -93,14 +101,17 @@ public class Estimation extends Activity {
 
 		ListView.setAdapter(mSchedule);
 
-		Timer timLocIpdate = new Timer();
+		final Timer timLocIpdate = new Timer();
 		timLocIpdate.schedule(new TimerTask() {
 			@Override
 			public void run() {
 				try {
+					Log.i("taxi","ça marche le truc de clement");
 					GeoPoint posTaxi = req.getPosTaxi(idTaxi);
-					map.put("description", GmapsDirection.getTrajetInfo(
-							posTaxi, data.position).temps);
+					Collection<String> listItem = map.values();
+					String [] list = (String[]) listItem.toArray();
+					list[0] = GmapsDirection.getTrajetInfo(posTaxi, data.position).temps;
+					notifyAll();
 				} catch(ParamsException e) {
 					e.printStackTrace();
 				} catch(HttpUrlException e) {
@@ -113,8 +124,10 @@ public class Estimation extends Activity {
 					e.printStackTrace();
 				} catch(DirectionZeroResultsException e) {
 					e.printStackTrace();
+				} catch(ConnectionException e) {
+					e.printStackTrace();
 				}
 			}
-		}, 1000);
+		}, 0, 60000);
 	}
 }

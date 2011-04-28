@@ -1,7 +1,13 @@
 package com.taxi.client;
 
+import gmaps.DirectionException;
+import gmaps.DirectionInvalidRequestException;
+import gmaps.DirectionNotFoundException;
+import gmaps.DirectionZeroResultsException;
+import gmaps.GmapsDirection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import rest_client.ConnectionException;
 import rest_client.CourseExistException;
 import rest_client.HttpUrlException;
 import rest_client.ParamsException;
@@ -75,6 +81,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 				ClientRequest req = new ClientRequest(server_addr);
 				try {
 					if(data.position != null) {
+						GmapsDirection.getTrajetInfo(data.position, data.usrdestination);
 						req.addCourse(new Course(0, data.usrdestination,
 								new Client(data.nom, data.prenom,
 										data.position, data.telephone)));
@@ -85,20 +92,48 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 								Toast.LENGTH_SHORT).show();
 					}
 				} catch(CourseExistException e) {
-					Log.i("taxi", "course exist exception");
+					Toast.makeText(this,
+							"Course déjà repertoriée",
+							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(ParamsException e) {
 					Log.i("taxi", "params exception");
 					e.printStackTrace();
-				} catch(HttpUrlException e) {
-					Log.i("taxi", "httpurl exception");
+				} catch(DirectionNotFoundException e) {
+					Toast.makeText(this,
+							"Destination incorrecte",
+							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
-				} catch(Exception e) {
-					Log.i("taxi", "exception : " + e.getMessage());
+				} catch(DirectionInvalidRequestException e) {
+					Toast.makeText(this,
+							"Destination incorrecte",
+							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch(DirectionException e) {
+					Toast.makeText(this,
+							"Destination incorrecte",
+							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch(DirectionZeroResultsException e) {
+					Toast.makeText(this,
+							"Destination incorrecte",
+							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch(HttpUrlException e) {
+					Toast.makeText(this,
+							"La connexion au serveur a échoué",
+							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				} catch (ConnectionException e) {
+					Toast.makeText(this,
+							"La connexion au serveur a échoué",
+							Toast.LENGTH_SHORT).show();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			} else {
 				Toast.makeText(this,
-						"Erreur de destination, veuillez vérifier le contenu.",
+						"Erreur de destination, veuillez vérifier le contenu",
 						Toast.LENGTH_SHORT).show();
 			}
 			break;
@@ -125,6 +160,8 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 		@Override
 		protected void onPostExecute(Integer result) {
 			dialog.dismiss();
+			if(result<0)
+				return;
 			Intent estim = new Intent(Main.this, Estimation.class);
 			estim.putExtra("idTaxi", result);
 			startActivity(estim);
@@ -140,6 +177,8 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 			ClientRequest req = new ClientRequest(server_addr);
 			for(;;) {
 				try {
+					if(!dialog.isShowing())
+						return -1;
 					int idTaxi = req.getCourse(params[0]);
 					if(idTaxi > 0)
 						return idTaxi;
@@ -152,6 +191,9 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 					}
 				} catch(ParamsException e) {
 					e.printStackTrace();
+				} catch(ConnectionException e) {
+					e.printStackTrace();
+					return -1;
 				}
 			}
 		}
