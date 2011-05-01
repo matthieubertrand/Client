@@ -20,7 +20,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -97,7 +96,6 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(ParamsException e) {
-					Log.i("taxi", "params exception");
 					e.printStackTrace();
 				} catch(DirectionNotFoundException e) {
 					Toast.makeText(this,
