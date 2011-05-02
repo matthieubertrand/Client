@@ -5,6 +5,7 @@ import gmaps.DirectionInvalidRequestException;
 import gmaps.DirectionNotFoundException;
 import gmaps.DirectionZeroResultsException;
 import gmaps.GmapsDirection;
+import gmaps.OverQueryLimitException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,8 +56,12 @@ public class Estimation extends Activity {
 		try {
 			GeoPoint posTaxi;
 			posTaxi = req.getPosTaxi(idTaxi);
-			map.put("description",
-					GmapsDirection.getTrajetInfo(posTaxi, data.position).temps);
+			try {
+				map.put("description",
+						GmapsDirection.getTrajetInfo(posTaxi, data.position).temps);
+			} catch(OverQueryLimitException e) {
+				e.printStackTrace();
+			}
 			map.put("img", String.valueOf(R.drawable.taxi));
 			listItem.add(map);
 
@@ -93,6 +98,8 @@ public class Estimation extends Activity {
 			e.printStackTrace();
 		} catch(HttpUrlException e) {
 			e.printStackTrace();
+		} catch(OverQueryLimitException e) {
+			e.printStackTrace();
 		}
 
 		SimpleAdapter mSchedule = new SimpleAdapter(getBaseContext(), listItem,
@@ -100,7 +107,9 @@ public class Estimation extends Activity {
 				new int[] { R.id.img, R.id.titre, R.id.description });
 
 		ListView.setAdapter(mSchedule);
-
+		
+	
+/*
 		final Timer timLocIpdate = new Timer();
 		timLocIpdate.schedule(new TimerTask() {
 			@Override
@@ -129,5 +138,6 @@ public class Estimation extends Activity {
 				}
 			}
 		}, 0, 60000);
+		*/
 	}
 }

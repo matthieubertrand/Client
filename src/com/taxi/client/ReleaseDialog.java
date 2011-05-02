@@ -17,7 +17,7 @@ public class ReleaseDialog extends Dialog implements OnClickListener {
 
 	public ReleaseDialog(Context context) {
 		super(context);
-		setTitle("Information");
+		setTitle("A propos de TaxiDroid");
 		setContentView(R.layout.release);
 		Button annulerBtn = (Button) findViewById(R.id.dialogInfoBtnRetour);
 		annulerBtn.setOnClickListener(this);
