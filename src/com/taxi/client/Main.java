@@ -80,8 +80,8 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 				ClientRequest req = new ClientRequest(server_addr);
 				try {
 					if(data.position != null) {
-						GmapsDirection.getTrajetInfo(data.position,
-								data.usrdestination);
+						//GmapsDirection.getTrajetInfo(data.position,
+								//data.usrdestination);
 						req.addCourse(new Course(0, data.usrdestination,
 								new Client(data.nom, data.prenom,
 										data.position, data.telephone)));
@@ -96,7 +96,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 					e.printStackTrace();
 				} catch(ParamsException e) {
 					e.printStackTrace();
-				} catch(DirectionNotFoundException e) {
+				/* }catch(DirectionNotFoundException e) {
 					Toast.makeText(this, "Destination incorrecte",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
@@ -112,6 +112,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 					Toast.makeText(this, "Destination incorrecte",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
+					*/
 				} catch(HttpUrlException e) {
 					Toast.makeText(this, "La connexion au serveur a échouée",
 							Toast.LENGTH_SHORT).show();
