@@ -44,7 +44,6 @@ public class CustomDialog extends Dialog implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-
 		switch(v.getId()) {
 		case R.id.dialogInfoBtnAnnuler:
 			dismiss();
@@ -63,25 +62,20 @@ public class CustomDialog extends Dialog implements OnClickListener {
 			Matcher m4 = p4.matcher(data.nom);
 			Pattern p5 = Pattern.compile(".{2,}");
 			Matcher m5 = p5.matcher(data.prenom);
-
 			SharedPreferences.Editor editor = sharedPref.edit();
-
 			if(m.matches() && m1.matches() && m2.matches()) {
 				if(m4.matches() && m5.matches()) {
-
 					editor.putString("usrname", data.nom);
 					editor.putString("usrsurname", data.prenom);
 					editor.putString("phone", data.telephone);
 					editor.commit();
 					dismiss();
 				}
-			} else {
+			} else
 				Toast.makeText(
 						getContext(),
 						"Erreur dans les champs de saisie, veuillez vérifier le contenu.",
 						Toast.LENGTH_SHORT).show();
-			}
-
 			break;
 		}
 	}

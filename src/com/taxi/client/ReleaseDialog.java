@@ -12,9 +12,7 @@ import android.widget.Button;
  * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand
  * 
  */
-
 public class ReleaseDialog extends Dialog implements OnClickListener {
-
 	public ReleaseDialog(Context context) {
 		super(context);
 		setTitle("A propos de TaxiDroid");
@@ -26,7 +24,5 @@ public class ReleaseDialog extends Dialog implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		dismiss();
-
 	}
-
 }

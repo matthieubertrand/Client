@@ -80,60 +80,52 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 				ClientRequest req = new ClientRequest(server_addr);
 				try {
 					if(data.position != null) {
-						GmapsDirection.getTrajetInfo(data.position, data.usrdestination);
+						GmapsDirection.getTrajetInfo(data.position,
+								data.usrdestination);
 						req.addCourse(new Course(0, data.usrdestination,
 								new Client(data.nom, data.prenom,
 										data.position, data.telephone)));
 						new ProgressTask(this).execute(data.telephone);
-					} else {
+					} else
 						Toast.makeText(this,
 								"Votre position n'a pas encore été determinée",
 								Toast.LENGTH_SHORT).show();
-					}
 				} catch(CourseExistException e) {
-					Toast.makeText(this,
-							"Course déjà répertoriée",
+					Toast.makeText(this, "Course déjà répertoriée",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(ParamsException e) {
 					e.printStackTrace();
 				} catch(DirectionNotFoundException e) {
-					Toast.makeText(this,
-							"Destination incorrecte",
+					Toast.makeText(this, "Destination incorrecte",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(DirectionInvalidRequestException e) {
-					Toast.makeText(this,
-							"Destination incorrecte",
+					Toast.makeText(this, "Destination incorrecte",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(DirectionException e) {
-					Toast.makeText(this,
-							"Destination incorrecte",
+					Toast.makeText(this, "Destination incorrecte",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(DirectionZeroResultsException e) {
-					Toast.makeText(this,
-							"Destination incorrecte",
+					Toast.makeText(this, "Destination incorrecte",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(HttpUrlException e) {
-					Toast.makeText(this,
-							"La connexion au serveur a échouée",
+					Toast.makeText(this, "La connexion au serveur a échouée",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
-				} catch (ConnectionException e) {
-					Toast.makeText(this,
-							"La connexion au serveur a échouée",
+				} catch(ConnectionException e) {
+					Toast.makeText(this, "La connexion au serveur a échouée",
 							Toast.LENGTH_SHORT).show();
-				} catch (Exception e) {
+				} catch(Exception e) {
 					e.printStackTrace();
 				}
-			} else {
+			} else
 				Toast.makeText(this,
 						"Erreur de destination, veuillez vérifier le contenu",
 						Toast.LENGTH_SHORT).show();
-			}
 			break;
 		case R.id.infoBtn:
 			infosDialog = new CustomDialog(this);
@@ -143,12 +135,10 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 			releaseDialog = new ReleaseDialog(this);
 			releaseDialog.show();
 			break;
-
 		}
 	}
 
 	public class ProgressTask extends AsyncTask<String, Void, Integer> {
-
 		private CustomProgressDialog dialog;
 
 		public ProgressTask(Context parent) {
@@ -158,7 +148,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 		@Override
 		protected void onPostExecute(Integer result) {
 			dialog.dismiss();
-			if(result<0)
+			if(result < 0)
 				return;
 			Intent estim = new Intent(Main.this, Estimation.class);
 			estim.putExtra("idTaxi", result);
@@ -173,37 +163,34 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 		@Override
 		protected Integer doInBackground(String... params) {
 			ClientRequest req = new ClientRequest(server_addr);
-			for(;;) {
+			for(;;)
 				try {
 					if(!dialog.isShowing())
 						return -1;
 					int idTaxi = req.getCourse(params[0]);
 					if(idTaxi > 0)
 						return idTaxi;
-					else {
+					else
 						try {
 							Thread.sleep(10000);
 						} catch(InterruptedException e) {
 							e.printStackTrace();
 						}
-					}
 				} catch(ParamsException e) {
 					e.printStackTrace();
 				} catch(ConnectionException e) {
 					e.printStackTrace();
 					return -1;
 				}
-			}
 		}
-
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if(data.position == null) {
+		if(data.position == null)
 			data.position = new GeoPoint(location.getLatitude(),
 					location.getLongitude());
-		} else {
+		else {
 			data.position.lat = location.getLatitude();
 			data.position.lon = location.getLongitude();
 		}
@@ -211,17 +198,13 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 
 	@Override
 	public void onProviderDisabled(String provider) {
-
 	}
 
 	@Override
 	public void onProviderEnabled(String provider) {
-
 	}
 
 	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-
 	}
-
 }
