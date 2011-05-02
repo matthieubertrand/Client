@@ -78,7 +78,7 @@ public class CustomDialog extends Dialog implements OnClickListener {
 			} else {
 				Toast.makeText(
 						getContext(),
-						"Erreur dans les champs de saisie, veuillez vérifier le contenu.",
+						"Erreur dans les champs de saisie, veuillez vÃ©rifier le contenu.",
 						Toast.LENGTH_SHORT).show();
 			}
 

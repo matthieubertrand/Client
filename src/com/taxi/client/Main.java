@@ -31,7 +31,7 @@ import core.course.Course;
 import core.localisation.GeoPoint;
 
 /**
- * Gere les lancements d'activitées selon les boutons Envoi requete sur serveur
+ * Gere les lancements d'activitï¿½es selon les boutons Envoi requete sur serveur
  * web Reccupere destination du client
  * 
  * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand
@@ -87,12 +87,12 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 						new ProgressTask(this).execute(data.telephone);
 					} else {
 						Toast.makeText(this,
-								"Votre position n'a pas encore été determinée",
+								"Votre position n'a pas encore Ã©tÃ© determinÃ©e",
 								Toast.LENGTH_SHORT).show();
 					}
 				} catch(CourseExistException e) {
 					Toast.makeText(this,
-							"Course déjà repertoriée",
+							"Course dÃ©jÃ  rÃ©pertoriÃ©e",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch(ParamsException e) {
@@ -119,19 +119,19 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 					e.printStackTrace();
 				} catch(HttpUrlException e) {
 					Toast.makeText(this,
-							"La connexion au serveur a échoué",
+							"La connexion au serveur a Ã©chouÃ©e",
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				} catch (ConnectionException e) {
 					Toast.makeText(this,
-							"La connexion au serveur a échoué",
+							"La connexion au serveur a Ã©chouÃ©e",
 							Toast.LENGTH_SHORT).show();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
 				Toast.makeText(this,
-						"Erreur de destination, veuillez vérifier le contenu",
+						"Erreur de destination, veuillez vÃ©rifier le contenu",
 						Toast.LENGTH_SHORT).show();
 			}
 			break;

@@ -26,7 +26,7 @@ import core.localisation.GeoPoint;
 
 public class Estimation extends Activity {
 	/**
-	 * Gere et affiche une liste d estimation de cout et de distance relative à
+	 * Gere et affiche une liste d estimation de cout et de distance relative ï¿½
 	 * la course
 	 * 
 	 * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand
@@ -51,7 +51,7 @@ public class Estimation extends Activity {
 		ListView = (ListView) findViewById(R.id.listview);
 		ArrayList<HashMap<String, String>> listItem = new ArrayList<HashMap<String, String>>();
 		map = new HashMap<String, String>();
-		map.put("titre", "Temps d'arrivée du taxi estimé");
+		map.put("titre", "Temps d'arrivÃ©e du taxi estimÃ©");
 		req = new ClientRequest(server_addr);
 		try {
 			GeoPoint posTaxi;
@@ -66,7 +66,7 @@ public class Estimation extends Activity {
 			listItem.add(map);
 
 			map = new HashMap<String, String>();
-			map.put("titre", "Temps d'arrivée à destination");
+			map.put("titre", "Temps d'arrivÃ©e Ã  destination");
 			TrajetInfo infos;
 			infos = GmapsDirection.getTrajetInfo(data.usrdestination,
 					data.position);
@@ -115,7 +115,7 @@ public class Estimation extends Activity {
 			@Override
 			public void run() {
 				try {
-					Log.i("taxi","ça marche le truc de clement");
+					Log.i("taxi","ï¿½a marche le truc de clement");
 					GeoPoint posTaxi = req.getPosTaxi(idTaxi);
 					Collection<String> listItem = map.values();
 					String [] list = (String[]) listItem.toArray();

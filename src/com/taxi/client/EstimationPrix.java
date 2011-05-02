@@ -32,7 +32,7 @@ public class EstimationPrix {
 			prix = 6.2;
 		}
 		DecimalFormat format = new DecimalFormat("0.00");
-		return format.format(prix) + " €";
+		return format.format(prix) + " â‚¬";
 	}
 
 }
