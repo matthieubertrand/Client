@@ -37,7 +37,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 	private Button goCourseBtn;
 	private Button infoBtn;
 	private Button releaseBtn;
-	private CustomDialog infosDialog;
+	private ClientInfosDialog infosDialog;
 	private ReleaseDialog releaseDialog;
 	private SharedPreferences sharePref;
 	private SharedData data;
@@ -121,7 +121,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 						Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.infoBtn:
-			infosDialog = new CustomDialog(this);
+			infosDialog = new ClientInfosDialog(this);
 			infosDialog.show();
 			break;
 		case R.id.releaseBtn:

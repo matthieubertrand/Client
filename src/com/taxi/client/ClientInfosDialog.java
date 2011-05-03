@@ -17,14 +17,15 @@ import android.widget.Toast;
  * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand Gere une fenetre
  *         de dialogue renseignant sur les informations clientes (+sauvegarde)
  */
-public class CustomDialog extends Dialog implements OnClickListener {
+public class ClientInfosDialog extends Dialog implements OnClickListener {
+	private final static String FILE_INFO_CLIENT = "Info_Client";
 	private SharedPreferences sharedPref;
-	TextView textnom;
-	TextView textprenom;
-	TextView texttelephone;
-	SharedData data;
+	private TextView textnom;
+	private TextView textprenom;
+	private TextView texttelephone;
+	private SharedData data;
 
-	public CustomDialog(Context context) {
+	public ClientInfosDialog(Context context) {
 		super(context);
 		setTitle("Information Client");
 		setContentView(R.layout.infoclient);
@@ -39,7 +40,7 @@ public class CustomDialog extends Dialog implements OnClickListener {
 		textnom.setText(data.nom);
 		textprenom.setText(data.prenom);
 		texttelephone.setText(data.telephone);
-		sharedPref = context.getSharedPreferences("Info_Client", 0);
+		sharedPref = context.getSharedPreferences(FILE_INFO_CLIENT, 0);
 	}
 
 	@Override
@@ -52,25 +53,25 @@ public class CustomDialog extends Dialog implements OnClickListener {
 			data.nom = textnom.getText().toString();
 			data.prenom = textprenom.getText().toString();
 			data.telephone = texttelephone.getText().toString();
-			Pattern p = Pattern.compile("0[0-9]{9}");
-			Matcher m = p.matcher(data.telephone);
-			Pattern p1 = Pattern.compile("[a-zA-Z]{2,}");
-			Matcher m1 = p1.matcher(data.nom);
-			Pattern p2 = Pattern.compile("[a-zA-Z]{2,}");
-			Matcher m2 = p2.matcher(data.prenom);
-			Pattern p4 = Pattern.compile(".{2,}");
-			Matcher m4 = p4.matcher(data.nom);
-			Pattern p5 = Pattern.compile(".{2,}");
-			Matcher m5 = p5.matcher(data.prenom);
+			Pattern telPattern = Pattern.compile("0[0-9]{9}");
+			Matcher telMatcher = telPattern.matcher(data.telephone);
+			Pattern namePattern = Pattern.compile("[a-zA-Z]{2,}");
+			Matcher nameMatcher = namePattern.matcher(data.nom);
+			Pattern surnamePattern = Pattern.compile("[a-zA-Z]{2,}");
+			Matcher surnameMatcher = surnamePattern.matcher(data.prenom);
+			//Pattern p4 = Pattern.compile(".{2,}");
+			//Matcher m4 = p4.matcher(data.nom);
+			//Pattern p5 = Pattern.compile(".{2,}");
+			//Matcher m5 = p5.matcher(data.prenom);
 			SharedPreferences.Editor editor = sharedPref.edit();
-			if(m.matches() && m1.matches() && m2.matches()) {
-				if(m4.matches() && m5.matches()) {
+			if(telMatcher.matches() && nameMatcher.matches() && surnameMatcher.matches()) {
+				//if(m4.matches() && m5.matches()) {
 					editor.putString("usrname", data.nom);
 					editor.putString("usrsurname", data.prenom);
 					editor.putString("phone", data.telephone);
 					editor.commit();
 					dismiss();
-				}
+				//}
 			} else
 				Toast.makeText(
 						getContext(),
