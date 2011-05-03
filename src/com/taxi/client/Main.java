@@ -33,7 +33,7 @@ import core.localisation.GeoPoint;
  * 
  */
 public class Main extends Activity implements OnClickListener, LocationListener {
-	private final static String server_addr = "http://88.184.190.42:8080";
+	public final static String SERVER_ADDR = "http://88.184.190.42:8080";
 	private Button goCourseBtn;
 	private Button infoBtn;
 	private Button releaseBtn;
@@ -72,7 +72,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 			Pattern p = Pattern.compile(".{4,}");
 			Matcher m = p.matcher(data.usrdestination);
 			if(m.matches()) {
-				ClientRequest req = new ClientRequest(server_addr);
+				ClientRequest req = new ClientRequest(SERVER_ADDR);
 				try {
 					if(data.position != null) {
 						// GmapsDirection.getTrajetInfo(data.position,
@@ -155,7 +155,7 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 
 		@Override
 		protected Integer doInBackground(String... params) {
-			ClientRequest req = new ClientRequest(server_addr);
+			ClientRequest req = new ClientRequest(SERVER_ADDR);
 			for(;;)
 				try {
 					if(!dialog.isShowing())

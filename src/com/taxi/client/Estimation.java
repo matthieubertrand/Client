@@ -26,7 +26,6 @@ public class Estimation extends Activity {
 	 * 
 	 * @author Clement Bizeau & Yves Szymezak & Matthieu Bertrand
 	 */
-	private final static String SERVER_ADDR = "http://88.184.190.42:8080";
 	private static final int UPDATE_UI = 0;
 	private static final int UPDATE_TIME = 120000;
 	private int idTaxi;
@@ -70,7 +69,7 @@ public class Estimation extends Activity {
 		@Override
 		public void run() {
 			Log.i("taxi", "go timer");
-			ClientRequest req = new ClientRequest(SERVER_ADDR);
+			ClientRequest req = new ClientRequest(Main.SERVER_ADDR);
 			TextView tempsTaxi = (TextView) findViewById(R.id.EstimationTempsTaxi);
 			try {
 				GeoPoint geo = req.getPosTaxi(idTaxi);

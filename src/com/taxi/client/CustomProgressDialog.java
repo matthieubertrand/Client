@@ -16,7 +16,6 @@ import client_request.ClientRequest;
  *         et la fermeture d'un fenetre de dialogue type progresdialog
  */
 public class CustomProgressDialog extends Dialog implements OnClickListener {
-	private final static String server_addr = "http://88.184.190.42:8080";
 	private SharedData data;
 
 	public CustomProgressDialog(Context context) {
@@ -29,7 +28,7 @@ public class CustomProgressDialog extends Dialog implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		ClientRequest req = new ClientRequest(server_addr);
+		ClientRequest req = new ClientRequest(Main.SERVER_ADDR);
 		try {
 			req.removeCourse(data.telephone);
 		} catch(ParamsException e) {
