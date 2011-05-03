@@ -1,11 +1,7 @@
 package com.taxi.client;
 
-import gmaps.DirectionException;
-import gmaps.DirectionInvalidRequestException;
-import gmaps.DirectionNotFoundException;
-import gmaps.DirectionZeroResultsException;
-import gmaps.GmapsDirection;
-import gmaps.OverQueryLimitException;
+import bing.BingDirection;
+import bing.DirectionNotFoundException;
 import rest_client.ConnectionException;
 import rest_client.HttpUrlException;
 import rest_client.ParamsException;
@@ -44,23 +40,15 @@ public class Estimation extends Activity {
 		TextView prix = (TextView) findViewById(R.id.EstimationPrix);
 		TrajetInfo infos;
 		try {
-			infos = GmapsDirection.getTrajetInfo(data.usrdestination,
+			infos = BingDirection.getTrajetInfo(data.usrdestination,
 					data.position);
 			tempsCourse.setText(infos.temps);
 			prix.setText(EstimationPrix.EstimPrix(infos.distanceValue));
 		} catch(DirectionNotFoundException e) {
 			e.printStackTrace();
-		} catch(DirectionInvalidRequestException e) {
-			e.printStackTrace();
-		} catch(DirectionException e) {
-			e.printStackTrace();
-		} catch(DirectionZeroResultsException e) {
-			e.printStackTrace();
-		} catch(OverQueryLimitException e) {
 			tempsCourse.setText("inconnue");
-			prix.setText("inconnue");
-			e.printStackTrace();
-		}
+			prix.setText("inconnu");
+		} 
 		handlerTimer.removeCallbacks(updateEstimmation);
 		handlerTimer.postDelayed(updateEstimmation, 500);
 	}
@@ -73,7 +61,7 @@ public class Estimation extends Activity {
 			TextView tempsTaxi = (TextView) findViewById(R.id.EstimationTempsTaxi);
 			try {
 				GeoPoint geo = req.getPosTaxi(idTaxi);
-				TrajetInfo infos = GmapsDirection.getTrajetInfo(geo,
+				TrajetInfo infos = BingDirection.getTrajetInfo(geo,
 						data.position);
 				tempsTaxi.setText(infos.temps);
 			} catch(ParamsException e) {
@@ -84,15 +72,8 @@ public class Estimation extends Activity {
 				e.printStackTrace();
 			} catch(DirectionNotFoundException e) {
 				e.printStackTrace();
-			} catch(DirectionInvalidRequestException e) {
-				e.printStackTrace();
-			} catch(DirectionException e) {
-				e.printStackTrace();
-			} catch(DirectionZeroResultsException e) {
-				e.printStackTrace();
-			} catch(OverQueryLimitException e) {
 				tempsTaxi.setText("inconnue");
-			}
+			} 
 			Message msg = new Message();
 			msg.what = UPDATE_UI;
 			updateUiEvent.sendMessage(msg);

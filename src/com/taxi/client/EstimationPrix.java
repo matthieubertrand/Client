@@ -3,6 +3,7 @@ package com.taxi.client;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import android.util.Log;
 
 public class EstimationPrix {
 	public static String EstimPrix(double distanceMeter) {
@@ -13,7 +14,8 @@ public class EstimationPrix {
 		cal = new GregorianCalendar();
 		heure = cal.get(Calendar.HOUR_OF_DAY);
 		num_jour = cal.get(Calendar.DAY_OF_WEEK);
-		double distance = distanceMeter / 1000;
+		Log.i("taxi", "meter : "+distanceMeter);
+		double distance = distanceMeter ;
 		if(num_jour <= 7 && num_jour > 1) {
 			if(heure < 19 && heure >= 7)
 				prix = 1.5 * distance;
