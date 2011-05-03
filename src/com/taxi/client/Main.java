@@ -1,10 +1,5 @@
 package com.taxi.client;
 
-import gmaps.DirectionException;
-import gmaps.DirectionInvalidRequestException;
-import gmaps.DirectionNotFoundException;
-import gmaps.DirectionZeroResultsException;
-import gmaps.GmapsDirection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import rest_client.ConnectionException;
@@ -80,8 +75,8 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 				ClientRequest req = new ClientRequest(server_addr);
 				try {
 					if(data.position != null) {
-						//GmapsDirection.getTrajetInfo(data.position,
-								//data.usrdestination);
+						// GmapsDirection.getTrajetInfo(data.position,
+						// data.usrdestination);
 						req.addCourse(new Course(0, data.usrdestination,
 								new Client(data.nom, data.prenom,
 										data.position, data.telephone)));
@@ -96,23 +91,20 @@ public class Main extends Activity implements OnClickListener, LocationListener 
 					e.printStackTrace();
 				} catch(ParamsException e) {
 					e.printStackTrace();
-				/* }catch(DirectionNotFoundException e) {
-					Toast.makeText(this, "Destination incorrecte",
-							Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch(DirectionInvalidRequestException e) {
-					Toast.makeText(this, "Destination incorrecte",
-							Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch(DirectionException e) {
-					Toast.makeText(this, "Destination incorrecte",
-							Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				} catch(DirectionZeroResultsException e) {
-					Toast.makeText(this, "Destination incorrecte",
-							Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-					*/
+					/*
+					 * }catch(DirectionNotFoundException e) {
+					 * Toast.makeText(this, "Destination incorrecte",
+					 * Toast.LENGTH_SHORT).show(); e.printStackTrace(); }
+					 * catch(DirectionInvalidRequestException e) {
+					 * Toast.makeText(this, "Destination incorrecte",
+					 * Toast.LENGTH_SHORT).show(); e.printStackTrace(); }
+					 * catch(DirectionException e) { Toast.makeText(this,
+					 * "Destination incorrecte", Toast.LENGTH_SHORT).show();
+					 * e.printStackTrace(); }
+					 * catch(DirectionZeroResultsException e) {
+					 * Toast.makeText(this, "Destination incorrecte",
+					 * Toast.LENGTH_SHORT).show(); e.printStackTrace();
+					 */
 				} catch(HttpUrlException e) {
 					Toast.makeText(this, "La connexion au serveur a échouée",
 							Toast.LENGTH_SHORT).show();

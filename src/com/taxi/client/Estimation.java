@@ -41,13 +41,12 @@ public class Estimation extends Activity {
 		data = (SharedData) getApplication();
 		Bundle b = getIntent().getExtras();
 		idTaxi = b.getInt("idTaxi");
-		
 		TextView tempsCourse = (TextView) findViewById(R.id.EstimationTempsTrajet);
 		TextView prix = (TextView) findViewById(R.id.EstimationPrix);
 		TrajetInfo infos;
 		try {
-			infos = GmapsDirection.getTrajetInfo(
-					data.usrdestination, data.position);
+			infos = GmapsDirection.getTrajetInfo(data.usrdestination,
+					data.position);
 			tempsCourse.setText(infos.temps);
 			prix.setText(EstimationPrix.EstimPrix(infos.distanceValue));
 		} catch(DirectionNotFoundException e) {
@@ -63,7 +62,6 @@ public class Estimation extends Activity {
 			prix.setText("inconnue");
 			e.printStackTrace();
 		}
-		
 		handlerTimer.removeCallbacks(updateEstimmation);
 		handlerTimer.postDelayed(updateEstimmation, 500);
 	}
