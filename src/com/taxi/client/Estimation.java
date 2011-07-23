@@ -40,10 +40,12 @@ public class Estimation extends Activity {
 		TextView prix = (TextView) findViewById(R.id.EstimationPrix);
 		TrajetInfo infos;
 		try {
-			infos = BingDirection.getTrajetInfo(data.usrdestination,
-					data.position);
-			tempsCourse.setText(infos.temps);
-			prix.setText(EstimationPrix.EstimPrix(infos.distanceValue));
+			if(data.position!=null) {
+				infos = BingDirection.getTrajetInfo(data.usrdestination,
+						data.position);
+				tempsCourse.setText(infos.temps);
+				prix.setText(EstimationPrix.EstimPrix(infos.distanceValue));
+			}
 		} catch(DirectionNotFoundException e) {
 			e.printStackTrace();
 			tempsCourse.setText("inconnue");
@@ -61,9 +63,11 @@ public class Estimation extends Activity {
 			TextView tempsTaxi = (TextView) findViewById(R.id.EstimationTempsTaxi);
 			try {
 				GeoPoint geo = req.getPosTaxi(idTaxi);
-				TrajetInfo infos = BingDirection.getTrajetInfo(geo,
-						data.position);
-				tempsTaxi.setText(infos.temps);
+				if(data.position!=null) {
+					TrajetInfo infos = BingDirection.getTrajetInfo(geo,
+							data.position);
+					tempsTaxi.setText(infos.temps);
+				}
 			} catch(ParamsException e) {
 				e.printStackTrace();
 			} catch(HttpUrlException e) {
